@@ -13,3 +13,7 @@ A wrapper for Chrome Devtools.
 - Launch the Devtools App
 - Click on green ```play``` button. This will populate the candidate pages to debug.
 - Select a page to debug and you will see a hosted Devtools debugging the page you selected.
+
+## Screenshot
+
+![Devtools App (Angular) Screenshot](devtoolsappng.png)
