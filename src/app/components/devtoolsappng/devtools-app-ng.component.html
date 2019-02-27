@@ -41,9 +41,12 @@
               <br/>
               <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Hosted devtools:</span>
-                <input type="text" pInputText style="width: calc(100% - 350px);" placeholder="Hosted Devtools URL" [(ngModel)]="devtoolsURL">
+                <input type="text" pInputText style="width: calc(100% - 388px);" placeholder="Hosted Devtools URL" [(ngModel)]="devtoolsURL">
                 <span class="ui-inputgroup-addon">{{devtoolsURLArgs}}...</span>
                 <p-button type="button" icon="fa fa-copy" styleClass="ui-button-info" (click)="copyDevtoolsURL($event)"></p-button>
+                &nbsp;
+                &nbsp;
+                <p-button type="button" icon="fa fa-undo" styleClass="ui-button-info" (click)="undo($event)"></p-button>
               </div>
               <br/>
             </div>

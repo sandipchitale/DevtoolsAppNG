@@ -105,6 +105,10 @@ export class DevtoolsAppNGComponent implements OnInit, OnDestroy {
     clipboard.writeText(this.devtoolsURL + DEVTOOLS_URL_SUFFIX + this.inpsectablePage.webSocketDebuggerUrl.substring(4));
   }
 
+  undo(event) {
+    this.devtoolsURL = DEVTOOLS_URL_PREFIX;
+  }
+
   clear(event?) {
     this.inpsectablePages = [];
     this.inpsectablePage = undefined;
