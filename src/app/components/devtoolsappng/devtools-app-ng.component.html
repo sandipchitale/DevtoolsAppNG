@@ -1,0 +1,131 @@
+<div class="devtools-app-ng no-drag">
+  <div class="p-grid p-nogutter">
+    <div class="p-col-3 p-col-align-center drag">
+      <h2>Devtools App ({{ version }})</h2>
+    </div>
+    <div class="p-col-8 p-col-align-center">
+      <p-tabMenu #tabsMenu [model]="tabs" [activeItem]="tabs[0]" styleClass="p-justify-end" (click)="activateTab()">
+        <ng-template pTemplate="item" let-tab let-i="index">
+          {{tab.label}}
+        </ng-template>
+      </p-tabMenu>
+    </div>
+    <div class="p-col-1 p-col-align-center" style="text-align: end;">
+      <ng-container *ngIf="isMaximized(); else restored">
+        <p-button type="button" icon="pi pi-window-minimize" styleClass="ui-button-rounded ui-button-secondary" (click)="toggle($event)"></p-button>
+      </ng-container>
+      <ng-template #restored>
+        <p-button type="button" icon="pi pi-window-maximize" styleClass="ui-button-rounded ui-button-secondary" (click)="toggle($event)"></p-button>
+      </ng-template>
+      &nbsp;
+      <p-button type="button" icon="pi pi-times" styleClass="ui-button-rounded ui-button-secondary" (click)="quit($event)"></p-button>
+    </div>
+    <div class="p-col-12 p-col-align-center tabs">
+      <ng-container [ngSwitch]="activeTab.id">
+        <ng-container *ngSwitchCase="tabs[0].id">
+          <div class="p-grid p-nogutter">
+            <div class="p-col-4 p-col-align-center">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">http://</span>
+                <input type="text" size=7 pInputText placeholder="host" [(ngModel)]="chromeHost">
+                <span class="ui-inputgroup-addon">:</span>
+                <input type="text" size="4" pInputText placeholder="port" [(ngModel)]="chromePort">
+                <p-button
+                  type="button"
+                  icon="pi pi-caret-right"
+                  styleClass="ui-button-success"
+                  [disabled]="devtoolsConnected"
+                  title="Connect to Chromer debugger"
+                  (click)="connect($event)"></p-button>
+              </div>
+            </div>
+            <div class="p-col-2 p-col-align-center" style="text-align: end;">
+              <b>Select page:&nbsp;&nbsp;</b>
+            </div>
+            <div class="p-col-5 p-col-align-center">
+              <p-dropdown [readonly]="devtoolsConnected" [options]="inpsectablePages" [(ngModel)]="inpsectablePage" optionLabel="url" [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+            <div class="p-col-1 p-col-align-center" style="text-align: end;">
+              <p-button
+              type="button"
+              icon="pi pi-eye"
+              styleClass="ui-button-success"
+              [disabled]="inpsectablePages.length === 0 || devtoolsConnected"
+              title="Launch devtools"
+              (click)="launchDevtools($event)"></p-button>
+              &nbsp;
+              <p-button type="button"
+                [icon]="devtoolsConnected ? 'pi pi-power-off' : 'pi pi-trash'"
+                styleClass="ui-button-danger"
+                [disabled]="inpsectablePages.length === 0"
+                title="{{devtoolsConnected ? 'Stop devtools' : 'Clear inspectable pages'}}"
+                (click)="devtoolsConnected ? disconnect($event) : clear($event)"></p-button>
+            </div>
+            <ng-container *ngIf="!devtoolsConnected">
+              <div class="p-col-12 p-col-align-center">
+                <br/>
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon">Hosted devtools:</span>
+                  <input type="text" pInputText style="width: calc(100% - 388px);" placeholder="Hosted Devtools URL" [(ngModel)]="devtoolsURL">
+                  <span class="ui-inputgroup-addon">{{devtoolsURLArgs}}...</span>
+                  <p-button type="button" icon="pi pi-copy" styleClass="ui-button-info" (click)="copyDevtoolsURL($event)"></p-button>
+                  &nbsp;
+                  &nbsp;
+                  <p-button type="button" icon="pi pi-replay" styleClass="ui-button-info" (click)="undo($event)"></p-button>
+                </div>
+              </div>
+            </ng-container>
+            <div class="p-col-12 p-col-align-center p-justify-end">
+              <br/>
+              <webview id="devtools-view"
+                [ngStyle]="{'height' : (devtoolsConnected ? 'calc(100vh - 140px)' : 'calc(100vh - 190px)')}"
+                style="border: 1px solid #CCC;width: 100%;"
+                src="about:blank"></webview>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="tabs[1].id">
+          <webview id="info-view"
+            style="border: 1px solid #CCC;width: 100%; height: calc(100vh - 90px);"
+            src="https://docs.google.com/document/d/1WNF-KqRSzPLUUfZqQG5AFeU_Ll8TfWYcJasa_XGf7ro/edit#heading=h.8pmor7vpbvt2"></webview>
+        </ng-container>
+        <ng-container *ngSwitchCase="tabs[2].id">
+          <webview id="blog-view"
+            style="border: 1px solid #CCC;width: 100%; height: calc(100vh - 90px);"
+            src="http://sandipchitale.blogspot.com/2019/02/devtools-app-angular.html"></webview>
+          </ng-container>
+          <ng-container *ngSwitchCase="tabs[3].id">
+            <webview id="github-view"
+            style="border: 1px solid #CCC;width: 100%; height: calc(100vh - 90px);"
+            src="https://github.com/sandipchitale/DevToolsAppNG"></webview>
+        </ng-container>
+        <ng-container *ngSwitchCase="tabs[4].id">
+          <div class="p-grid p-nogutter">
+            <div class="p-col-12 p-col-align-center">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Search API:</span>
+                <input type="text"
+                  pInputText
+                  style="width: calc(100% - 130px);"
+                  placeholder="Search for Web and JavaScript API e.g. Window, HTMLElement, RegExp, setTimeout"
+                  (keyup.enter)="showApi($event)"
+                  [(ngModel)]="api">
+                <p-button type="button"
+                  icon="pi pi-search"
+                  styleClass="ui-button-success"
+                  [disabled]="api.trim().length === 0"
+                  (click)="showApi($event)"></p-button>
+              </div>
+            </div>
+            <div class="p-col-12 p-col-align-center">
+              <br/>
+              <webview id="api-view"
+              style="border: 1px solid #CCC;width: 100%; height: calc(100vh - 140px);"
+              src="https://developer.mozilla.org/en-US/docs/Web/API"></webview>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
