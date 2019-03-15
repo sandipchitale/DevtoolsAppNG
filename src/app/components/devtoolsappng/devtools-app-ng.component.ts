@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
-import { clipboard } from 'electron';
+import { clipboard, WebviewTag } from 'electron';
 import { remote } from 'electron';
 import { MenuItem } from 'primeng/api';
 
@@ -102,6 +102,11 @@ export class DevtoolsAppNGComponent implements OnInit, OnDestroy {
     .setAttribute('src',
     // tslint:disable-next-line:max-line-length
     this.devtoolsURL + DEVTOOLS_URL_SUFFIX + this.inpsectablePage.webSocketDebuggerUrl.substring(4));
+  }
+
+  launchDevtoolsOnDevtools(event) {
+    const webview: WebviewTag = document.querySelector('#devtools-view');
+    webview.openDevTools();
   }
 
   copyDevtoolsURL() {

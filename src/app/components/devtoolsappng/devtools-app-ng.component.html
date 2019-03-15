@@ -42,10 +42,10 @@
             <div class="p-col-2 p-col-align-center" style="text-align: end;">
               <b>Select page:&nbsp;&nbsp;</b>
             </div>
-            <div class="p-col-5 p-col-align-center">
+            <div class="p-col-4 p-col-align-center">
               <p-dropdown [readonly]="devtoolsConnected" [options]="inpsectablePages" [(ngModel)]="inpsectablePage" optionLabel="url" [style]="{'width': '100%'}"></p-dropdown>
             </div>
-            <div class="p-col-1 p-col-align-center" style="text-align: end;">
+            <div class="p-col-2 p-col-align-center" style="text-align: end;">
               <p-button
               type="button"
               icon="pi pi-eye"
@@ -53,6 +53,14 @@
               [disabled]="inpsectablePages.length === 0 || devtoolsConnected"
               title="Launch devtools"
               (click)="launchDevtools($event)"></p-button>
+              &nbsp;
+              <p-button
+              type="button"
+              icon="pi pi-eye"
+              styleClass="ui-button-danger"
+              [disabled]="!devtoolsConnected"
+              title="Launch devtools on devtools"
+              (click)="launchDevtoolsOnDevtools($event)"></p-button>
               &nbsp;
               <p-button type="button"
                 [icon]="devtoolsConnected ? 'pi pi-power-off' : 'pi pi-trash'"
@@ -80,7 +88,8 @@
               <webview id="devtools-view"
                 [ngStyle]="{'height' : (devtoolsConnected ? 'calc(100vh - 140px)' : 'calc(100vh - 190px)')}"
                 style="border: 1px solid #CCC;width: 100%;"
-                src="about:blank"></webview>
+                src="about:blank"
+                disablewebsecurity></webview>
             </div>
           </div>
         </ng-container>
