@@ -14,13 +14,15 @@ A wrapper for Chrome Devtools.
 - Click on green ```play``` button. This will populate the candidate pages to debug.
 - Select a page to debug and you will see a hosted Devtools debugging the page you selected.
 
+**NOTE: After starting devtools make sure to Enable Javascript Source Maps in Settings**
+
 ## Screenshot
 
 ![Devtools App (Angular) Screenshot](devtoolsappng.png)
 
 ## Nodejs debugging
 
-You can also deug node application by starting node like so:
+You can also debug node application by starting node like so:
 
 ```
 > node --inspect ...
