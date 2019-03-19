@@ -39,6 +39,11 @@ export class DevtoolsAppNGComponent implements OnInit, OnDestroy {
   devtoolsConnected = false;
 
   devtoolsURL = DEVTOOLS_URL_PREFIX;
+  devtoolsURLs = [
+    { label: 'Sandip\'s enhanced devtools with Go to member all files', value: DEVTOOLS_URL_PREFIX },
+    // tslint:disable-next-line:max-line-length
+    { label: 'Sandip\'s forked Chrome devtools master branch', value: 'https://sandipchitale.github.io/devtools-frontend/front_end/inspector.html' }
+  ];
   devtoolsURLArgs = DEVTOOLS_URL_SUFFIX;
 
   api = '';
