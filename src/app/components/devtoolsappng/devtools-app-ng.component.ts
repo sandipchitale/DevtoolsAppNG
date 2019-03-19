@@ -103,15 +103,20 @@ export class DevtoolsAppNGComponent implements OnInit, OnDestroy {
 
   launchDevtools(event) {
     this.devtoolsConnected = true;
-    document.querySelector('#devtools-view')
-    .setAttribute('src',
-    // tslint:disable-next-line:max-line-length
-    this.devtoolsURL + DEVTOOLS_URL_SUFFIX + this.inpsectablePage.webSocketDebuggerUrl.substring(4));
+    const devtoolsView: WebviewTag = document.querySelector('#devtools-view');
+    devtoolsView.setAttribute('src',
+      // tslint:disable-next-line:max-line-length
+      this.devtoolsURL + DEVTOOLS_URL_SUFFIX + this.inpsectablePage.webSocketDebuggerUrl.substring(4));
+    if (event.ctrlKey && event.shiftKey) {
+      setTimeout(() => {
+        devtoolsView.reloadIgnoringCache();
+      }, 500);
+    }
   }
 
   launchDevtoolsOnDevtools(event) {
-    const webview: WebviewTag = document.querySelector('#devtools-view');
-    webview.openDevTools();
+    const devtoolsView: WebviewTag = document.querySelector('#devtools-view');
+    devtoolsView.openDevTools();
   }
 
   copyDevtoolsURL() {
